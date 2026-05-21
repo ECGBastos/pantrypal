@@ -75,7 +75,7 @@ If a future provider such as OpenAI vision is enabled, document it clearly: imag
 
 ## Notifications
 
-Notifications are optional. The MVP stores notification preferences and includes service worker push handlers, but full web-push delivery with VAPID keys is intentionally left as a later step. On iPhone, web push requires the app to be added to the Home Screen on iOS/iPadOS 16.4+; normal Safari tabs should not be assumed to receive push.
+Notifications are optional. PantryPal stores reminder preferences for low-stock items, weekly shopping, and unchecked list items.
 
 ## Security Notes
 
@@ -101,6 +101,6 @@ If your repository uses a different default branch, push that branch instead.
 
 - Replace the MVP user switcher with real authentication, such as a shared household PIN first and proper users later.
 - Add real-time sync between phones with polling or WebSockets.
-- Add VAPID subscriptions and scheduled web-push delivery.
+- Add scheduled reminder delivery.
 - Add OpenAI vision, local vision, OCR, or barcode providers behind the existing image-analysis interface.
 - Add richer offline mutation queues if the app is used away from the NAS.
