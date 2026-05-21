@@ -1,0 +1,16 @@
+node_modules
+.next
+.git
+.env
+.env.*
+data
+logs
+tmp
+temp
+uploads
+public/uploads
+*.db
+*.sqlite
+*.sqlite3
+*.log
+.DS_Store
