@@ -9,15 +9,15 @@ export async function POST(request: Request) {
   const image = formData.get("image");
 
   if (!(image instanceof File)) {
-    return NextResponse.json({ error: "Choose a photo first." }, { status: 400 });
+    return NextResponse.json({ error: "Escolhe uma foto primeiro." }, { status: 400 });
   }
 
   if (!image.type.startsWith("image/")) {
-    return NextResponse.json({ error: "The selected file must be an image." }, { status: 400 });
+    return NextResponse.json({ error: "O ficheiro escolhido tem de ser uma imagem." }, { status: 400 });
   }
 
   if (image.size > MAX_IMAGE_BYTES) {
-    return NextResponse.json({ error: "Please choose a photo under 6 MB." }, { status: 413 });
+    return NextResponse.json({ error: "Escolhe uma foto com menos de 6 MB." }, { status: 413 });
   }
 
   const { household } = await getCurrentContext();
@@ -35,7 +35,7 @@ export async function POST(request: Request) {
   } catch {
     // Do not include request bodies, file names, or image contents in errors/logs.
     return NextResponse.json(
-      { error: "We could not detect items automatically. You can still add them manually from this photo." },
+      { error: "Não conseguimos detetar artigos automaticamente. Ainda podes adicioná-los manualmente a partir desta foto." },
       { status: 500 }
     );
   }

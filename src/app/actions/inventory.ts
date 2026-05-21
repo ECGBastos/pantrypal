@@ -26,9 +26,9 @@ async function resolveCategoryId(householdId: string, categoryId: string | null 
     }
   }
 
-  const fallback = await getCategoryIdByName(householdId, "Other");
+  const fallback = await getCategoryIdByName(householdId, "Outro");
   if (!fallback) {
-    throw new Error("No fallback category is available.");
+    throw new Error("Não há categoria de fallback disponível.");
   }
 
   return fallback;
@@ -207,7 +207,7 @@ export async function addInventoryItemToShopping(formData: FormData) {
         categoryId: item.categoryId,
         unit: item.unit,
         createdByUserId: currentUser.id,
-        note: item.isRunningLow ? "Added from running low inventory" : null
+        note: item.isRunningLow ? "Adicionado a partir de stock baixo" : null
       }
     });
   }
@@ -228,7 +228,7 @@ export async function addInventoryItemToShopping(formData: FormData) {
 const detectedItemSchema = z.object({
   selected: z.boolean().default(true),
   name: z.string().trim().min(1),
-  category: z.string().trim().min(1).default("Other"),
+  category: z.string().trim().min(1).default("Outro"),
   quantity: z.number().nullable().optional(),
   unit: z.string().trim().nullable().optional(),
   location: z.string().trim().nullable().optional(),

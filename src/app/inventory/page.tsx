@@ -11,7 +11,7 @@ import { locationLabel } from "@/lib/format";
 import { prisma } from "@/lib/prisma";
 
 export const metadata: Metadata = {
-  title: "Inventory"
+  title: "Casa"
 };
 
 export const dynamic = "force-dynamic";
@@ -43,14 +43,14 @@ export default async function InventoryPage() {
       <section className="space-y-3">
         <div className="input-shell flex items-center gap-3 px-4 py-2">
           <Search className="shrink-0 text-outline" size={24} aria-hidden="true" />
-          <input className="form-input min-h-11 text-base" placeholder="Search your pantry..." aria-label="Search your pantry" />
+          <input className="form-input min-h-11 text-base" placeholder="Procurar em casa..." aria-label="Procurar em casa" />
         </div>
         <ItemInput
           action={addInventoryItem}
           categories={categories}
           knownItems={knownItems}
-          placeholder="Quick add inventory..."
-          defaultCategoryName="Pantry"
+          placeholder="Adicionar stock..."
+          defaultCategoryName="Despensa"
           inventoryMode
         />
       </section>
@@ -58,12 +58,12 @@ export default async function InventoryPage() {
       {inventoryItems.length === 0 ? (
         <EmptyState
           icon={Box}
-          title="Inventory starts light"
-          body="Add only the items that help you avoid repeat trips or surprise shortages."
+          title="Começa simples"
+          body="Adiciona só o que ajuda a evitar esquecimentos ou idas extra às compras."
           action={
             <Link href="/inventory/scan" className="primary-button px-5">
               <Barcode size={20} aria-hidden="true" />
-              Scan Stock
+              Fotografar stock
             </Link>
           }
         />
@@ -72,7 +72,7 @@ export default async function InventoryPage() {
           <section key={group.location} className="space-y-3">
             <div className="section-heading">
               <h2>{group.location}</h2>
-              <span className="chip chip-neutral">{group.items.length} {group.items.length === 1 ? "item" : "items"}</span>
+              <span className="chip chip-neutral">{group.items.length} {group.items.length === 1 ? "artigo" : "artigos"}</span>
             </div>
             <div className="space-y-3">
               {group.items.map((item) => (
@@ -88,7 +88,7 @@ export default async function InventoryPage() {
         className="primary-button fixed bottom-32 right-6 z-40 rounded-full px-5 md:right-[calc(50%-350px)]"
       >
         <Barcode size={22} aria-hidden="true" />
-        Scan Stock
+        Fotografar stock
       </Link>
     </AppShell>
   );

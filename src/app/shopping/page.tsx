@@ -9,7 +9,7 @@ import { getCategories, getCurrentContext } from "@/lib/app-context";
 import { prisma } from "@/lib/prisma";
 
 export const metadata: Metadata = {
-  title: "Shopping"
+  title: "Compras"
 };
 
 export const dynamic = "force-dynamic";
@@ -49,15 +49,15 @@ export default async function ShoppingPage() {
         action={addShoppingItem}
         categories={categories}
         knownItems={frequentItems}
-        placeholder="Add items to your list..."
-        defaultCategoryName="Other"
+        placeholder="Adicionar à lista..."
+        defaultCategoryName="Outro"
       />
 
       {frequentItems.length > 0 ? (
         <section className="space-y-3">
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-bold uppercase tracking-wide text-outline">Quick re-add</h2>
-            <span className="text-xs font-semibold text-outline">Recently used</span>
+            <h2 className="text-sm font-bold uppercase tracking-wide text-outline">Adicionar de novo</h2>
+            <span className="text-xs font-semibold text-outline">Usados recentemente</span>
           </div>
           <div className="flex gap-2 overflow-x-auto pb-1">
             {frequentItems.map((item) => (
@@ -76,8 +76,8 @@ export default async function ShoppingPage() {
       {activeByCategory.length === 0 ? (
         <EmptyState
           icon={ShoppingBasket}
-          title="Your list is clear"
-          body="Add the next thing you notice while cooking, checking cupboards, or heading to the shop."
+          title="A lista está limpa"
+          body="Adiciona o que reparares enquanto cozinhas, vês os armários ou preparas as compras."
         />
       ) : (
         activeByCategory.map((group) => (
@@ -89,10 +89,10 @@ export default async function ShoppingPage() {
                 </span>
                 <h2>{group.category.name}</h2>
               </div>
-              <span className="chip chip-neutral">{group.items.length} {group.items.length === 1 ? "item" : "items"}</span>
+              <span className="chip chip-neutral">{group.items.length} {group.items.length === 1 ? "artigo" : "artigos"}</span>
             </div>
 
-            {group.category.name === "Pantry" && group.items.length > 1 ? (
+            {["Despensa", "Pantry"].includes(group.category.name) && group.items.length > 1 ? (
               <div className="grid grid-cols-2 gap-3">
                 {group.items.map((item) => (
                   <ShoppingListItemRow key={item.id} item={item} compact />
@@ -114,16 +114,16 @@ export default async function ShoppingPage() {
           <summary className="flex list-none cursor-pointer items-center justify-between py-3">
             <div className="flex items-center gap-2 text-outline">
               <ChevronDown className="transition group-open:rotate-180" size={22} aria-hidden="true" />
-              <h2 className="text-lg font-bold">Recently Bought</h2>
+              <h2 className="text-lg font-bold">Comprado recentemente</h2>
             </div>
-            <span className="text-sm font-semibold text-outline">{boughtItems.length} items</span>
+            <span className="text-sm font-semibold text-outline">{boughtItems.length} {boughtItems.length === 1 ? "artigo" : "artigos"}</span>
           </summary>
 
           {boughtItems.length > 0 ? (
             <div className="space-y-3 pt-2">
               <form action={clearBoughtShoppingItems}>
                 <button className="secondary-button w-full" type="submit">
-                  Clear bought items
+                  Limpar comprados
                 </button>
               </form>
               {boughtItems.map((item) => (
@@ -131,7 +131,7 @@ export default async function ShoppingPage() {
               ))}
             </div>
           ) : (
-            <p className="pb-4 text-sm text-outline">Bought items will collect here while you shop.</p>
+            <p className="pb-4 text-sm text-outline">Os artigos marcados como comprados aparecem aqui.</p>
           )}
         </details>
       </section>
@@ -140,7 +140,7 @@ export default async function ShoppingPage() {
 }
 
 function CategoryIcon({ categoryName }: { categoryName: string }) {
-  if (categoryName === "Produce") {
+  if (["Fruta e legumes", "Produce"].includes(categoryName)) {
     return <Leaf size={27} aria-hidden="true" />;
   }
 

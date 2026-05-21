@@ -8,7 +8,7 @@ export function ItemInput({
   categories,
   knownItems,
   placeholder,
-  defaultCategoryName = "Other",
+  defaultCategoryName = "Outro",
   inventoryMode = false
 }: {
   action: (formData: FormData) => Promise<void>;
@@ -26,7 +26,7 @@ export function ItemInput({
       <div className="input-shell flex items-center gap-3 px-4 py-2">
         <Search className="shrink-0 text-outline" size={24} aria-hidden="true" />
         <label htmlFor={inputId} className="sr-only">
-          Item name
+          Nome do artigo
         </label>
         <input
           id={inputId}
@@ -37,7 +37,7 @@ export function ItemInput({
           autoComplete="off"
           required
         />
-        <button className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-on-primary" type="submit" aria-label="Add item">
+        <button className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-on-primary" type="submit" aria-label="Adicionar artigo">
           <Plus size={24} aria-hidden="true" />
         </button>
       </div>
@@ -50,26 +50,26 @@ export function ItemInput({
 
       <details className="paper-card group p-3">
         <summary className="list-none cursor-pointer text-sm font-bold text-primary">
-          Optional details
+          Detalhes opcionais
         </summary>
         <div className="mt-3 grid gap-3">
           <CategorySelector categories={categories} defaultCategoryName={defaultCategoryName} />
-          <QuantityUnitInput quantityPlaceholder={inventoryMode ? "1" : "2"} unitPlaceholder={inventoryMode ? "box" : "pcs"} />
+          <QuantityUnitInput quantityPlaceholder={inventoryMode ? "1" : "2"} unitPlaceholder={inventoryMode ? "emb." : "un."} />
           {inventoryMode ? (
             <>
               <label className="block">
-                <span className="mb-1 block text-xs font-bold uppercase tracking-wide text-outline">Location</span>
-                <input name="location" className="form-input min-h-12 rounded-xl bg-surface-container-low px-3" placeholder="Fridge, pantry, bathroom" />
+                <span className="mb-1 block text-xs font-bold uppercase tracking-wide text-outline">Local</span>
+                <input name="location" className="form-input min-h-12 rounded-xl bg-surface-container-low px-3" placeholder="Frigorífico, despensa, casa de banho" />
               </label>
               <label className="block">
-                <span className="mb-1 block text-xs font-bold uppercase tracking-wide text-outline">Low stock threshold</span>
+                <span className="mb-1 block text-xs font-bold uppercase tracking-wide text-outline">Limite de stock baixo</span>
                 <input name="lowStockThreshold" className="form-input min-h-12 rounded-xl bg-surface-container-low px-3" inputMode="decimal" placeholder="1" />
               </label>
             </>
           ) : null}
           <label className="block">
-            <span className="mb-1 block text-xs font-bold uppercase tracking-wide text-outline">Note</span>
-            <input name="note" className="form-input min-h-12 rounded-xl bg-surface-container-low px-3" placeholder="Brand, sale note, or reminder" />
+            <span className="mb-1 block text-xs font-bold uppercase tracking-wide text-outline">Nota</span>
+            <input name="note" className="form-input min-h-12 rounded-xl bg-surface-container-low px-3" placeholder="Marca, promoção ou nota" />
           </label>
         </div>
       </details>

@@ -4,7 +4,7 @@ import { PhotoCaptureUpload } from "@/components/photo-capture-upload";
 import { getCategories, getCurrentContext } from "@/lib/app-context";
 
 export const metadata: Metadata = {
-  title: "Scan Stock"
+  title: "Fotografar stock"
 };
 
 export const dynamic = "force-dynamic";

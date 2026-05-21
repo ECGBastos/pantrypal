@@ -28,8 +28,8 @@ export function buildSuggestions(input: {
       name: item.name,
       reason:
         item.quantity !== null && item.lowStockThreshold !== null
-          ? `At ${item.quantity}, threshold ${item.lowStockThreshold}`
-          : "Marked as running low",
+          ? `Está em ${item.quantity}, limite ${item.lowStockThreshold}`
+          : "Marcado como stock baixo",
       categoryId: item.categoryId,
       unit: item.unit,
       source: "running-low"
@@ -47,8 +47,8 @@ export function buildSuggestions(input: {
       name: item.name,
       reason:
         item.timesAddedToShoppingList > 0
-          ? `Bought ${item.timesAddedToShoppingList} times`
-          : "Recently used",
+          ? `Comprado ${item.timesAddedToShoppingList} vezes`
+          : "Usado recentemente",
       categoryId: item.defaultCategoryId,
       unit: item.defaultUnit,
       source: "frequent"

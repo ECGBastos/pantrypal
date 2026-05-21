@@ -6,7 +6,7 @@ import { getCurrentContext } from "@/lib/app-context";
 import { prisma } from "@/lib/prisma";
 
 export const metadata: Metadata = {
-  title: "Settings"
+  title: "Definições"
 };
 
 export const dynamic = "force-dynamic";
@@ -22,7 +22,8 @@ export default async function SettingsPage() {
     },
     create: {
       householdId: household.id,
-      userId: currentUser.id
+      userId: currentUser.id,
+      reminderDay: "Sábado"
     },
     update: {}
   });

@@ -18,9 +18,9 @@ async function resolveCategoryId(householdId: string, formData: FormData) {
     return categoryId;
   }
 
-  const fallback = await getCategoryIdByName(householdId, "Other");
+  const fallback = await getCategoryIdByName(householdId, "Outro");
   if (!fallback) {
-    throw new Error("No fallback category is available.");
+    throw new Error("Não há categoria de fallback disponível.");
   }
 
   return fallback;
@@ -179,7 +179,7 @@ export async function addKnownItemToShopping(formData: FormData) {
     return;
   }
 
-  const fallbackCategoryId = await getCategoryIdByName(household.id, "Other");
+  const fallbackCategoryId = await getCategoryIdByName(household.id, "Outro");
   const categoryId = knownItem.defaultCategoryId ?? fallbackCategoryId;
 
   if (!categoryId) {

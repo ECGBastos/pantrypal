@@ -20,37 +20,37 @@ export function InventoryItemRow({ item }: { item: InventoryRowItem }) {
         <div className="mt-1 flex flex-wrap items-center gap-2">
           <span className="text-sm font-medium text-outline">{quantityLabel(item.quantity, item.unit)}</span>
           <span className="text-sm text-outline">· {locationLabel(item.location)}</span>
-          {item.isRunningLow ? <span className="chip chip-low">Running Low</span> : null}
+          {item.isRunningLow ? <span className="chip chip-low">Stock baixo</span> : null}
         </div>
         {item.note ? <p className="mt-1 line-clamp-1 text-sm text-outline">{item.note}</p> : null}
       </div>
 
       <div className="flex shrink-0 flex-col items-end gap-2">
         <div className="flex items-center gap-1 rounded-full bg-surface-container-low p-1">
-          <QuantityButton id={item.id} delta="-1" label={`Decrease ${item.name}`}>
+          <QuantityButton id={item.id} delta="-1" label={`Diminuir ${item.name}`}>
             <Minus size={18} aria-hidden="true" />
           </QuantityButton>
           <span className="w-8 text-center text-lg font-bold">{item.quantity ?? "?"}</span>
-          <QuantityButton id={item.id} delta="1" label={`Increase ${item.name}`}>
+          <QuantityButton id={item.id} delta="1" label={`Aumentar ${item.name}`}>
             <Plus size={18} aria-hidden="true" />
           </QuantityButton>
         </div>
         <div className="flex gap-1">
           <form action={toggleRunningLow}>
             <input type="hidden" name="id" value={item.id} />
-            <button className="icon-button h-10 w-10 text-secondary" type="submit" aria-label={`Toggle running low for ${item.name}`}>
+            <button className="icon-button h-10 w-10 text-secondary" type="submit" aria-label={`Alternar stock baixo de ${item.name}`}>
               <AlertTriangle size={17} aria-hidden="true" />
             </button>
           </form>
           <form action={addInventoryItemToShopping}>
             <input type="hidden" name="id" value={item.id} />
-            <button className="icon-button h-10 w-10 text-primary" type="submit" aria-label={`Add ${item.name} to shopping`}>
+            <button className="icon-button h-10 w-10 text-primary" type="submit" aria-label={`Adicionar ${item.name} às compras`}>
               <ShoppingCart size={17} aria-hidden="true" />
             </button>
           </form>
           <form action={deleteInventoryItem}>
             <input type="hidden" name="id" value={item.id} />
-            <button className="icon-button h-10 w-10 text-outline" type="submit" aria-label={`Delete ${item.name}`}>
+            <button className="icon-button h-10 w-10 text-outline" type="submit" aria-label={`Apagar ${item.name}`}>
               <Trash2 size={17} aria-hidden="true" />
             </button>
           </form>

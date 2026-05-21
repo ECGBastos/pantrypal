@@ -4,13 +4,13 @@ import { prisma } from "@/lib/prisma";
 
 export async function ensureHouseholdSetup() {
   const household = await prisma.household.upsert({
-    where: { name: "Our Pantry" },
-    create: { name: "Our Pantry" },
+    where: { name: "Casa" },
+    create: { name: "Casa" },
     update: {}
   });
 
   const users = await Promise.all(
-    ["You", "Partner"].map((name) =>
+    ["Tu", "Parceira"].map((name) =>
       prisma.user.upsert({
         where: { householdId_name: { householdId: household.id, name } },
         create: { householdId: household.id, name },
@@ -33,7 +33,8 @@ export async function ensureHouseholdSetup() {
       create: {
         householdId: household.id,
         userId: user.id,
-        enabled: false
+        enabled: false,
+        reminderDay: "Sábado"
       },
       update: {}
     });
@@ -72,7 +73,7 @@ export async function getCategoryIdByName(householdId: string, name: string) {
   }
 
   const fallback = await prisma.category.findUnique({
-    where: { householdId_name: { householdId, name: "Other" } }
+    where: { householdId_name: { householdId, name: "Outro" } }
   });
 
   return fallback?.id;

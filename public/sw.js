@@ -55,8 +55,8 @@ self.addEventListener("fetch", (event) => {
 
 self.addEventListener("push", (event) => {
   let payload = {
-    title: "PantryPal reminder",
-    body: "You have household items to check.",
+    title: "Lembrete PantryPal",
+    body: "Tens artigos da casa para verificar.",
     url: "/shopping"
   };
 

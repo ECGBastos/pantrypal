@@ -3,16 +3,16 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const defaultCategories = [
-  "Produce",
-  "Meat & Fish",
-  "Dairy",
-  "Bakery",
-  "Pantry",
-  "Frozen",
-  "Drinks",
-  "Cleaning",
-  "Personal care",
-  "Other"
+  "Fruta e legumes",
+  "Carne e peixe",
+  "Laticínios",
+  "Padaria",
+  "Despensa",
+  "Congelados",
+  "Bebidas",
+  "Limpeza",
+  "Higiene pessoal",
+  "Outro"
 ];
 
 function normalizeName(name: string) {
@@ -21,13 +21,13 @@ function normalizeName(name: string) {
 
 async function main() {
   const household = await prisma.household.upsert({
-    where: { name: "Our Pantry" },
-    create: { name: "Our Pantry" },
+    where: { name: "Casa" },
+    create: { name: "Casa" },
     update: {}
   });
 
   const [you, partner] = await Promise.all(
-    ["You", "Partner"].map((name) =>
+    ["Tu", "Parceira"].map((name) =>
       prisma.user.upsert({
         where: { householdId_name: { householdId: household.id, name } },
         create: { householdId: household.id, name },
@@ -59,22 +59,23 @@ async function main() {
         enabled: false,
         lowStockRemindersEnabled: true,
         weeklyShoppingReminderEnabled: false,
-        uncheckedItemsReminderEnabled: false
+        uncheckedItemsReminderEnabled: false,
+        reminderDay: "Sábado"
       },
       update: {}
     });
   }
 
   const knownItems = [
-    ["Avocados", "Produce", "pcs", 8, 2],
-    ["Organic Spinach", "Produce", "bag", 6, 2],
-    ["Oat Milk", "Dairy", "cartons", 12, 4],
-    ["Basmati Rice", "Pantry", "kg", 4, 2],
-    ["Black Beans", "Pantry", "cans", 5, 2],
-    ["Dish Soap", "Cleaning", "bottle", 3, 1],
-    ["Espresso Roast", "Drinks", "bag", 7, 1],
-    ["Greek Yogurt", "Dairy", "tub", 6, 2],
-    ["Sourdough Loaf", "Bakery", "loaf", 5, 2]
+    ["Abacates", "Fruta e legumes", "un.", 8, 2],
+    ["Espinafres biológicos", "Fruta e legumes", "saco", 6, 2],
+    ["Bebida de aveia", "Bebidas", "emb.", 12, 4],
+    ["Arroz basmati", "Despensa", "kg", 4, 2],
+    ["Feijão preto", "Despensa", "latas", 5, 2],
+    ["Detergente da loiça", "Limpeza", "frasco", 3, 1],
+    ["Café espresso", "Bebidas", "pacote", 7, 1],
+    ["Iogurte grego", "Laticínios", "emb.", 6, 2],
+    ["Pão de massa mãe", "Padaria", "un.", 5, 2]
   ] as const;
 
   for (const [name, categoryName, unit, shoppingCount, inventoryCount] of knownItems) {
@@ -103,11 +104,11 @@ async function main() {
   }
 
   const activeShopping = [
-    { name: "Avocados", category: "Produce", quantity: "3", unit: "pcs", note: "Pick the ripe ones" },
-    { name: "Organic Spinach", category: "Produce", quantity: "1", unit: "bag", note: "Large bag for smoothies" },
-    { name: "Oat Milk", category: "Dairy", quantity: "2", unit: "cartons", note: "Extra creamy version" },
-    { name: "Basmati Rice", category: "Pantry", quantity: "1", unit: "kg", note: "" },
-    { name: "Black Beans", category: "Pantry", quantity: "3", unit: "cans", note: "" }
+    { name: "Abacates", category: "Fruta e legumes", quantity: "3", unit: "un.", note: "Escolher os maduros" },
+    { name: "Espinafres biológicos", category: "Fruta e legumes", quantity: "1", unit: "saco", note: "Saco grande para batidos" },
+    { name: "Bebida de aveia", category: "Bebidas", quantity: "2", unit: "emb.", note: "Versão cremosa" },
+    { name: "Arroz basmati", category: "Despensa", quantity: "1", unit: "kg", note: "" },
+    { name: "Feijão preto", category: "Despensa", quantity: "3", unit: "latas", note: "" }
   ];
 
   for (const item of activeShopping) {
@@ -125,7 +126,7 @@ async function main() {
           householdId: household.id,
           name: item.name,
           normalizedName: normalizeName(item.name),
-          categoryId: categories.get(item.category) ?? categories.get("Other")!,
+          categoryId: categories.get(item.category) ?? categories.get("Outro")!,
           quantity: item.quantity,
           unit: item.unit,
           note: item.note || null,
@@ -136,8 +137,8 @@ async function main() {
   }
 
   const recentlyBought = [
-    { name: "Greek Yogurt", category: "Dairy", quantity: "1", unit: "tub" },
-    { name: "Whole Wheat Bread", category: "Bakery", quantity: "1", unit: "loaf" }
+    { name: "Iogurte grego", category: "Laticínios", quantity: "1", unit: "emb." },
+    { name: "Pão integral", category: "Padaria", quantity: "1", unit: "un." }
   ];
 
   for (const item of recentlyBought) {
@@ -155,7 +156,7 @@ async function main() {
           householdId: household.id,
           name: item.name,
           normalizedName: normalizeName(item.name),
-          categoryId: categories.get(item.category) ?? categories.get("Other")!,
+          categoryId: categories.get(item.category) ?? categories.get("Outro")!,
           quantity: item.quantity,
           unit: item.unit,
           isBought: true,
@@ -168,51 +169,51 @@ async function main() {
 
   const inventoryItems = [
     {
-      name: "Whole Milk",
-      category: "Dairy",
+      name: "Leite",
+      category: "Laticínios",
       quantity: 1,
-      unit: "gal",
-      location: "Fridge",
+      unit: "L",
+      location: "Frigorífico",
       lowStockThreshold: 1,
       isRunningLow: true,
-      note: "Use before weekend"
+      note: "Usar antes do fim de semana"
     },
     {
-      name: "Organic Strawberries",
-      category: "Produce",
+      name: "Morangos",
+      category: "Fruta e legumes",
       quantity: 2,
-      unit: "boxes",
-      location: "Fridge",
+      unit: "cx.",
+      location: "Frigorífico",
       lowStockThreshold: 1,
       isRunningLow: false,
-      note: "Good for smoothies"
+      note: "Bons para batidos"
     },
     {
-      name: "Sourdough Loaf",
-      category: "Bakery",
+      name: "Pão de massa mãe",
+      category: "Padaria",
       quantity: 1,
-      unit: "loaf",
-      location: "Pantry",
+      unit: "un.",
+      location: "Despensa",
       lowStockThreshold: 1,
       isRunningLow: false,
-      note: "Freshly baked"
+      note: "Comprado fresco"
     },
     {
-      name: "Steel Cut Oats",
-      category: "Pantry",
+      name: "Flocos de aveia",
+      category: "Despensa",
       quantity: 0.2,
       unit: "kg",
-      location: "Pantry",
+      location: "Despensa",
       lowStockThreshold: 0.5,
       isRunningLow: true,
-      note: "Breakfast staple"
+      note: "Para pequeno-almoço"
     },
     {
-      name: "Dish Soap",
-      category: "Cleaning",
+      name: "Detergente da loiça",
+      category: "Limpeza",
       quantity: 0.3,
-      unit: "bottle",
-      location: "Sink",
+      unit: "frasco",
+      location: "Lava-loiça",
       lowStockThreshold: 0.5,
       isRunningLow: true,
       note: null
@@ -232,7 +233,7 @@ async function main() {
         householdId: household.id,
         name: item.name,
         normalizedName: normalizeName(item.name),
-        categoryId: categories.get(item.category) ?? categories.get("Other")!,
+        categoryId: categories.get(item.category) ?? categories.get("Outro")!,
         quantity: item.quantity,
         unit: item.unit,
         location: item.location,

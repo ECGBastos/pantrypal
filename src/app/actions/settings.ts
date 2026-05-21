@@ -51,7 +51,7 @@ export async function updateNotificationPreference(formData: FormData) {
       lowStockRemindersEnabled: formBoolean(formData, "lowStockRemindersEnabled"),
       weeklyShoppingReminderEnabled: formBoolean(formData, "weeklyShoppingReminderEnabled"),
       uncheckedItemsReminderEnabled: formBoolean(formData, "uncheckedItemsReminderEnabled"),
-      reminderDay: formString(formData, "reminderDay") || "Saturday",
+      reminderDay: formString(formData, "reminderDay") || "Sábado",
       reminderTime: formString(formData, "reminderTime") || "10:00"
     },
     update: {
@@ -59,7 +59,7 @@ export async function updateNotificationPreference(formData: FormData) {
       lowStockRemindersEnabled: formBoolean(formData, "lowStockRemindersEnabled"),
       weeklyShoppingReminderEnabled: formBoolean(formData, "weeklyShoppingReminderEnabled"),
       uncheckedItemsReminderEnabled: formBoolean(formData, "uncheckedItemsReminderEnabled"),
-      reminderDay: formString(formData, "reminderDay") || "Saturday",
+      reminderDay: formString(formData, "reminderDay") || "Sábado",
       reminderTime: formString(formData, "reminderTime") || "10:00"
     }
   });

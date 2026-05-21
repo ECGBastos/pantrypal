@@ -24,6 +24,7 @@ export function NotificationSettingsPanel({
   const [permission, setPermission] = useState<NotificationPermission | "unsupported">("default");
   const [enabled, setEnabled] = useState(preference.enabled);
   const [weeklyEnabled, setWeeklyEnabled] = useState(preference.weeklyShoppingReminderEnabled);
+  const reminderDay = translateReminderDay(preference.reminderDay);
 
   useEffect(() => {
     if (!("Notification" in window)) {
@@ -45,8 +46,8 @@ export function NotificationSettingsPanel({
 
     if (nextPermission === "granted" && "serviceWorker" in navigator) {
       const registration = await navigator.serviceWorker.ready.catch(() => null);
-      registration?.showNotification("PantryPal notifications are ready", {
-        body: "Reminders are optional and can be turned off anytime.",
+      registration?.showNotification("As notificações do PantryPal estão prontas", {
+        body: "Podes desligar os lembretes a qualquer momento.",
         icon: "/icons/pantrypal-icon.svg"
       });
     }
@@ -59,28 +60,28 @@ export function NotificationSettingsPanel({
           {enabled ? <Bell size={24} aria-hidden="true" /> : <BellOff size={24} aria-hidden="true" />}
         </div>
         <div>
-          <h2 className="text-xl font-bold text-on-surface">Notifications</h2>
+          <h2 className="text-xl font-bold text-on-surface">Notificações</h2>
         </div>
       </div>
 
       <button type="button" className="secondary-button w-full" onClick={requestPermission}>
-        {permission === "granted" ? "Notification permission granted" : "Enable device permission"}
+        {permission === "granted" ? "Permissão de notificações ativa" : "Ativar permissão no dispositivo"}
       </button>
 
       <form action={action} className="space-y-4">
-        <Toggle label="Use PantryPal reminders" name="enabled" defaultChecked={preference.enabled} onChange={setEnabled} />
-        <Toggle label="Low-stock reminders" name="lowStockRemindersEnabled" defaultChecked={preference.lowStockRemindersEnabled} />
-        <Toggle label="Weekly shopping reminder" name="weeklyShoppingReminderEnabled" defaultChecked={preference.weeklyShoppingReminderEnabled} onChange={setWeeklyEnabled} />
-        <Toggle label="Unchecked list reminder" name="uncheckedItemsReminderEnabled" defaultChecked={preference.uncheckedItemsReminderEnabled} />
+        <Toggle label="Usar lembretes do PantryPal" name="enabled" defaultChecked={preference.enabled} onChange={setEnabled} />
+        <Toggle label="Lembretes de stock baixo" name="lowStockRemindersEnabled" defaultChecked={preference.lowStockRemindersEnabled} />
+        <Toggle label="Lembrete semanal de compras" name="weeklyShoppingReminderEnabled" defaultChecked={preference.weeklyShoppingReminderEnabled} onChange={setWeeklyEnabled} />
+        <Toggle label="Lembrete de lista por terminar" name="uncheckedItemsReminderEnabled" defaultChecked={preference.uncheckedItemsReminderEnabled} />
 
         {weeklyEnabled ? (
           <div className="space-y-2">
-            <h3 className="text-sm font-bold text-on-surface">Weekly reminder schedule</h3>
+            <h3 className="text-sm font-bold text-on-surface">Horário do lembrete semanal</h3>
             <div className="grid grid-cols-2 gap-3">
               <label>
-                <span className="mb-1 block text-xs font-bold uppercase tracking-wide text-outline">Day</span>
-                <select name="reminderDay" defaultValue={preference.reminderDay} className="form-select">
-                  {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map((day) => (
+                <span className="mb-1 block text-xs font-bold uppercase tracking-wide text-outline">Dia</span>
+                <select name="reminderDay" defaultValue={reminderDay} className="form-select">
+                  {["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"].map((day) => (
                     <option key={day} value={day}>
                       {day}
                     </option>
@@ -88,24 +89,38 @@ export function NotificationSettingsPanel({
                 </select>
               </label>
               <label>
-                <span className="mb-1 block text-xs font-bold uppercase tracking-wide text-outline">Time</span>
+                <span className="mb-1 block text-xs font-bold uppercase tracking-wide text-outline">Hora</span>
                 <input name="reminderTime" type="time" defaultValue={preference.reminderTime} className="form-input min-h-12 rounded-xl bg-surface-container-low px-3" />
               </label>
             </div>
           </div>
         ) : (
           <>
-            <input type="hidden" name="reminderDay" value={preference.reminderDay} />
+            <input type="hidden" name="reminderDay" value={reminderDay} />
             <input type="hidden" name="reminderTime" value={preference.reminderTime} />
           </>
         )}
 
         <button className="primary-button w-full" type="submit">
-          Save notification settings
+          Guardar notificações
         </button>
       </form>
     </section>
   );
+}
+
+function translateReminderDay(day: string) {
+  const days: Record<string, string> = {
+    Monday: "Segunda",
+    Tuesday: "Terça",
+    Wednesday: "Quarta",
+    Thursday: "Quinta",
+    Friday: "Sexta",
+    Saturday: "Sábado",
+    Sunday: "Domingo"
+  };
+
+  return days[day] ?? day;
 }
 
 function Toggle({

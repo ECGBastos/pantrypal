@@ -1,23 +1,24 @@
 # PantryPal
 
-PantryPal is a mobile-first Progressive Web App for a small household shopping list and lightweight home inventory. It is designed for private self-hosting on a NAS, with no Vercel, Firebase, Supabase, uploads volume, or managed backend required for the MVP.
+PantryPal é uma Progressive Web App mobile-first para lista de compras partilhada e stock simples de casa. Foi pensada para correr num NAS em Docker, sem Vercel, Firebase, Supabase, volume de uploads ou backend gerido no MVP.
 
-## Architecture
+## Arquitetura
 
-Next.js with the App Router and TypeScript is a good fit for this NAS-hosted PWA because it can run as a normal Node server in Docker, produce a standalone production build, serve an installable app shell, and keep persistence server-side without vendor lock-in.
+Next.js com App Router e TypeScript é uma boa escolha para esta PWA auto-alojada porque corre como um servidor Node normal em Docker, gera build standalone para produção, serve uma app instalável no iPhone e mantém a persistência no servidor sem lock-in.
 
-SQLite is the MVP database. For a two-person household, writes are small, backups are a single database file, and Docker deployment is much simpler than operating PostgreSQL. The schema keeps household/user ownership explicit so a later PostgreSQL move is straightforward if multi-household scale or heavier concurrent writes become important.
+SQLite é a base de dados do MVP. Para uma casa de duas pessoas, há poucas escritas, o backup é um só ficheiro e o deployment em NAS é mais simples do que manter PostgreSQL. O modelo já guarda household/user em cada entidade importante, por isso uma migração futura para PostgreSQL continua simples se a app crescer.
 
-## Features
+## Funcionalidades
 
-- Fast grouped shopping list with quantities, notes, check/uncheck, delete, recent items, and bought-item collapse.
-- Lightweight inventory grouped by location with quick add, +/- quantity controls, running-low state, and add-to-shopping actions.
-- Local rule-based suggestions from running-low inventory and frequently bought known items.
-- Photo-assisted inventory flow with camera/file input, temporary preview, mock analysis, editable review, and manual fallback.
-- Settings with household user switcher, notification preferences, PWA guidance, and privacy notes.
-- PWA manifest and service worker for installability and basic offline shell caching.
+- Lista de compras rápida, agrupada por categoria, com quantidades, notas, comprar/desmarcar, apagar, artigos recentes e comprados recolhidos.
+- Ao marcar um artigo como comprado, ele é adicionado ou incrementado automaticamente no stock.
+- Stock de casa leve, agrupado por local, com adicionar rápido, +/- quantidade, stock baixo e adicionar às compras.
+- Sugestões locais baseadas em stock baixo e artigos comprados com frequência.
+- Entrada por foto com câmara/upload, pré-visualização temporária, análise mock, revisão editável e fallback manual.
+- Definições focadas só em notificações.
+- Manifest e service worker para instalação como PWA e cache básica da shell.
 
-## Local Development
+## Desenvolvimento Local
 
 ```bash
 cp .env.example .env
@@ -28,9 +29,9 @@ npm run prisma:seed
 npm run dev
 ```
 
-Open `http://localhost:3000`. The app starts at `/shopping`.
+Abre `http://localhost:3000`. A app começa em `/shopping`.
 
-Useful commands:
+Comandos úteis:
 
 ```bash
 npm run typecheck
@@ -38,16 +39,16 @@ npm test
 npm run build
 ```
 
-## Docker / NAS Deployment
+## Docker / NAS
 
 ```bash
 cp .env.example .env
 docker compose up -d --build
 ```
 
-The app listens on `${PORT:-3000}` and stores SQLite at `/data/pantrypal.db` inside the `pantrypal_data` Docker volume.
+A app escuta em `${PORT:-3000}` e guarda o SQLite em `/data/pantrypal.db` dentro do volume Docker `pantrypal_data`.
 
-Example NAS environment:
+Exemplo para NAS:
 
 ```env
 PORT=3000
@@ -58,49 +59,49 @@ IMAGE_ANALYSIS_PROVIDER=mock
 SEED_DEMO_DATA=false
 ```
 
-Back up only the Docker volume/database file. There is no uploads volume and no photo storage directory.
+Para backup, guarda apenas o volume/ficheiro da base de dados. Não existe volume de uploads nem pasta de fotos.
 
-## Photo Privacy
+## Privacidade Das Fotos
 
-Photos are not saved permanently. The selected photo exists in browser memory as an object URL, then as a temporary multipart request payload for analysis. The server endpoint does not write images to disk, the database, logs, backups, an uploads folder, or the Docker volume. Only user-confirmed inventory fields are persisted.
+As fotos não são guardadas. A imagem selecionada existe apenas na memória do browser como object URL e depois como payload temporário do pedido de análise. O endpoint não escreve imagens em disco, base de dados, logs, backups, pasta de uploads ou volume Docker. Só os artigos confirmados pelo utilizador são persistidos.
 
-External image analysis is off by default:
+A análise externa está desligada por defeito:
 
 ```env
 ENABLE_EXTERNAL_IMAGE_ANALYSIS=false
 IMAGE_ANALYSIS_PROVIDER=mock
 ```
 
-If a future provider such as OpenAI vision is enabled, document it clearly: images will leave the NAS during processing and must remain opt-in.
+Se um fornecedor externo, como OpenAI vision, for ativado no futuro, isso deve ficar explícito: as imagens saem do NAS durante o processamento e a opção tem de continuar opt-in.
 
-## Notifications
+## Notificações
 
-Notifications are optional. PantryPal stores reminder preferences for low-stock items, weekly shopping, and unchecked list items.
+As notificações são opcionais. A app guarda preferências para stock baixo, lembrete semanal e lista por terminar. A entrega real de push pode ser adicionada mais tarde por cima deste modelo.
 
-## Security Notes
+## Segurança
 
-- Do not commit `.env`, secrets, SQLite databases, logs, or generated images.
-- Use HTTPS for remote access.
-- Prefer VPN or a secure reverse proxy outside the local network.
-- Keep runtime data inside the Docker database volume.
-- There are no admin/debug production routes.
+- Não commitar `.env`, segredos, bases de dados SQLite, logs ou imagens geradas.
+- Usar HTTPS quando houver acesso remoto.
+- Preferir VPN ou reverse proxy seguro fora da rede local.
+- Manter dados de runtime no volume Docker da base de dados.
+- Não há rotas admin/debug em produção.
 
-## Git Workflow
+## Git
 
 ```bash
 git status
 git remote -v
 git add .
-git commit -m "Initial household shopping and inventory PWA MVP"
+git commit -m "Localize app to European Portuguese"
 git push origin main
 ```
 
-If your repository uses a different default branch, push that branch instead.
+Se o repositório usar outra branch por defeito, faz push para essa branch.
 
-## Future Work
+## Próximos Passos
 
-- Replace the MVP user switcher with real authentication, such as a shared household PIN first and proper users later.
-- Add real-time sync between phones with polling or WebSockets.
-- Add scheduled reminder delivery.
-- Add OpenAI vision, local vision, OCR, or barcode providers behind the existing image-analysis interface.
-- Add richer offline mutation queues if the app is used away from the NAS.
+- Trocar o utilizador mockado por autenticação simples, por exemplo PIN/password da casa.
+- Adicionar sync em tempo real entre telemóveis com polling ou WebSockets.
+- Adicionar entrega agendada de lembretes.
+- Ligar OpenAI vision, modelo local, OCR ou códigos de barras atrás da interface de análise de imagem.
+- Melhorar filas offline se a app for usada fora da rede do NAS.

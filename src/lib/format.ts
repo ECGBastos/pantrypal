@@ -21,14 +21,14 @@ export function parseOptionalFloat(value: FormDataEntryValue | null) {
 
 export function quantityLabel(quantity?: string | number | null, unit?: string | null) {
   if (quantity === null || quantity === undefined || quantity === "") {
-    return unit || "unknown";
+    return unit || "desconhecido";
   }
 
   return [quantity, unit].filter(Boolean).join(" ");
 }
 
 export function locationLabel(location?: string | null) {
-  return location?.trim() || "Home";
+  return location?.trim() || "Casa";
 }
 
 export function shortRelativeDate(date: Date | string | null) {
@@ -40,12 +40,12 @@ export function shortRelativeDate(date: Date | string | null) {
   const days = Math.round((Date.now() - then.getTime()) / 86_400_000);
 
   if (days <= 0) {
-    return "Today";
+    return "Hoje";
   }
 
   if (days === 1) {
-    return "Yesterday";
+    return "Ontem";
   }
 
-  return `${days} days ago`;
+  return `Há ${days} dias`;
 }

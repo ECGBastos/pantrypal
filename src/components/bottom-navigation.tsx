@@ -5,10 +5,10 @@ import { usePathname } from "next/navigation";
 import { Box, Lightbulb, Settings, ShoppingCart } from "lucide-react";
 
 const navItems = [
-  { href: "/shopping", label: "Shopping", icon: ShoppingCart },
-  { href: "/inventory", label: "Inventory", icon: Box },
-  { href: "/ideas", label: "Ideas", icon: Lightbulb },
-  { href: "/settings", label: "Settings", icon: Settings }
+  { href: "/shopping", label: "Compras", icon: ShoppingCart },
+  { href: "/inventory", label: "Casa", icon: Box },
+  { href: "/ideas", label: "Ideias", icon: Lightbulb },
+  { href: "/settings", label: "Definições", icon: Settings }
 ];
 
 export function BottomNavigation() {

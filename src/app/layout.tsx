@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     default: "PantryPal",
     template: "%s | PantryPal"
   },
-  description: "A private household shopping list and lightweight inventory PWA.",
+  description: "Lista de compras privada e stock simples para casa.",
   applicationName: "PantryPal",
   manifest: "/manifest.webmanifest",
   appleWebApp: {
@@ -35,7 +35,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="pt-PT">
       <body>
         {children}
         <ServiceWorkerRegistration />

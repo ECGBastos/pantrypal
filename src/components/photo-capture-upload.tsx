@@ -102,7 +102,7 @@ export function PhotoCaptureUpload({
       const payload = await response.json();
 
       if (!response.ok) {
-        throw new Error(payload.error ?? "Photo analysis failed.");
+        throw new Error(payload.error ?? "Não foi possível analisar a foto.");
       }
 
       const detectedItems = (payload.items ?? []) as DetectedResponseItem[];
@@ -111,7 +111,7 @@ export function PhotoCaptureUpload({
           id: crypto.randomUUID(),
           selected: true,
           name: item.name,
-          category: item.category || "Other",
+          category: item.category || "Outro",
           confidence: item.confidence,
           quantity: item.suggestedQuantity ?? 1,
           unit: item.suggestedUnit ?? "",
@@ -122,13 +122,13 @@ export function PhotoCaptureUpload({
       );
       setStatus("review");
     } catch (caught) {
-      setError(caught instanceof Error ? caught.message : "We could not detect items automatically. You can still add them manually from this photo.");
+      setError(caught instanceof Error ? caught.message : "Não conseguimos detetar artigos automaticamente. Ainda podes adicioná-los manualmente a partir desta foto.");
       setItems([
         {
           id: crypto.randomUUID(),
           selected: true,
           name: "",
-          category: "Other",
+          category: "Outro",
           confidence: 0,
           quantity: 1,
           unit: "",
@@ -146,10 +146,10 @@ export function PhotoCaptureUpload({
         <div className="mobile-shell content-pad flex items-center justify-between py-4">
           <Link href="/inventory" className="flex min-h-12 items-center gap-2 text-sm font-bold text-on-surface-variant">
             <ArrowLeft size={24} aria-hidden="true" />
-            Retake
+            Voltar
           </Link>
-          <h1 className="text-xl font-bold text-primary">Review Items</h1>
-          <button type="button" className="icon-button" onClick={clearPhoto} aria-label="Clear photo">
+          <h1 className="text-xl font-bold text-primary">Rever artigos</h1>
+          <button type="button" className="icon-button" onClick={clearPhoto} aria-label="Limpar foto">
             <Camera size={23} aria-hidden="true" />
           </button>
         </div>
@@ -162,9 +162,9 @@ export function PhotoCaptureUpload({
               <ImagePlus size={24} aria-hidden="true" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-on-surface">Scan Stock</h2>
+              <h2 className="text-xl font-bold text-on-surface">Fotografar stock</h2>
               <p className="mt-1 text-sm leading-6 text-outline">
-                Take a pantry, fridge, or cupboard photo. Nothing is saved; only confirmed item details are kept.
+                Tira uma foto da despensa, frigorífico ou armário. A foto não é guardada; só os artigos confirmados ficam registados.
               </p>
             </div>
           </div>
@@ -179,7 +179,7 @@ export function PhotoCaptureUpload({
           />
 
           <p className="text-xs leading-5 text-outline">
-            If camera capture is unavailable, iPhone Safari and Home Screen PWAs fall back to choosing an image from your library.
+            Se a câmara não estiver disponível, podes escolher uma imagem da galeria.
           </p>
         </section>
 
@@ -190,14 +190,14 @@ export function PhotoCaptureUpload({
         {status === "ready" ? (
           <button type="button" className="primary-button w-full" onClick={analyzePhoto}>
             <Wand2 size={20} aria-hidden="true" />
-            Analyze photo
+            Analisar foto
           </button>
         ) : null}
 
         {status === "analyzing" ? (
           <div className="paper-card flex items-center justify-center gap-3 p-5 text-primary">
             <Loader2 className="animate-spin" size={22} aria-hidden="true" />
-            <span className="font-bold">Looking for likely items</span>
+            <span className="font-bold">A procurar artigos prováveis</span>
           </div>
         ) : null}
 
@@ -209,14 +209,14 @@ export function PhotoCaptureUpload({
             className="space-y-5"
           >
             <section>
-              <h2 className="text-2xl font-bold text-on-surface">Detected Items</h2>
+              <h2 className="text-2xl font-bold text-on-surface">Artigos detetados</h2>
               <p className="mt-1 text-base leading-7 text-on-surface-variant">
-                Confirm, edit, merge, or discard each suggestion before saving.
+                Confirma, corrige ou descarta cada sugestão antes de guardar.
               </p>
             </section>
             <DetectedItemReview categories={categories} items={items} onChange={setItems} />
             <input type="hidden" name="items" value={serializedItems} />
-            <ConfirmCancelActions confirmLabel={isSaving ? "Saving..." : "Save to Inventory"} cancelHref="/inventory" disabled={isSaving || !items.some((item) => item.selected && item.name.trim())} />
+            <ConfirmCancelActions confirmLabel={isSaving ? "A guardar..." : "Guardar no stock"} cancelHref="/inventory" disabled={isSaving || !items.some((item) => item.selected && item.name.trim())} />
           </form>
         ) : null}
       </main>

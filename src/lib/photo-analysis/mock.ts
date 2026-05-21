@@ -4,28 +4,28 @@ import type { AnalyzeInventoryPhotoInput, DetectedInventoryItem, PhotoAnalysisPr
 
 const demoItems = [
   {
-    name: "Organic Eggs",
-    category: "Dairy",
+    name: "Ovos biológicos",
+    category: "Laticínios",
     confidence: 0.98,
     suggestedQuantity: 12,
-    suggestedUnit: "eggs",
-    suggestedLocation: "Fridge"
+    suggestedUnit: "un.",
+    suggestedLocation: "Frigorífico"
   },
   {
-    name: "Greek Yogurt",
-    category: "Dairy",
+    name: "Iogurte grego",
+    category: "Laticínios",
     confidence: 0.85,
     suggestedQuantity: 2,
-    suggestedUnit: "tubs",
-    suggestedLocation: "Fridge"
+    suggestedUnit: "emb.",
+    suggestedLocation: "Frigorífico"
   },
   {
-    name: "Oat Milk",
-    category: "Dairy",
+    name: "Bebida de aveia",
+    category: "Bebidas",
     confidence: 0.92,
     suggestedQuantity: 1,
-    suggestedUnit: "carton",
-    suggestedLocation: "Pantry"
+    suggestedUnit: "emb.",
+    suggestedLocation: "Despensa"
   }
 ] satisfies DetectedInventoryItem[];
 

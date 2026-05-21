@@ -15,7 +15,7 @@ export function ShoppingListItemRow({ item, compact = false }: { item: ShoppingR
             item.isBought ? "border-primary bg-primary text-on-primary" : "border-outline-variant text-outline"
           }`}
           type="submit"
-          aria-label={item.isBought ? `Unmark ${item.name}` : `Mark ${item.name} as bought`}
+          aria-label={item.isBought ? `Desmarcar ${item.name}` : `Marcar ${item.name} como comprado`}
         >
           {item.isBought ? <RotateCcw size={18} aria-hidden="true" /> : <Check size={20} aria-hidden="true" />}
         </button>
@@ -34,7 +34,7 @@ export function ShoppingListItemRow({ item, compact = false }: { item: ShoppingR
 
       <form action={deleteShoppingItem}>
         <input type="hidden" name="id" value={item.id} />
-        <button className="icon-button h-10 w-10 text-outline" type="submit" aria-label={`Delete ${item.name}`}>
+        <button className="icon-button h-10 w-10 text-outline" type="submit" aria-label={`Apagar ${item.name}`}>
           <Trash2 size={18} aria-hidden="true" />
         </button>
       </form>

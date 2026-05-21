@@ -36,7 +36,7 @@ export function DetectedItemReview({
         id: crypto.randomUUID(),
         selected: true,
         name: "",
-        category: "Other",
+        category: "Outro",
         confidence: 0,
         quantity: 1,
         unit: "",
@@ -61,7 +61,7 @@ export function DetectedItemReview({
                 checked={item.selected}
                 className="h-6 w-6 rounded border-outline-variant text-primary focus:ring-primary"
                 onChange={(event) => updateItem(item.id, { selected: event.currentTarget.checked })}
-                aria-label={`Select ${item.name || "item"}`}
+                aria-label={`Selecionar ${item.name || "artigo"}`}
               />
             </label>
             <div className="min-w-0 flex-1 space-y-3">
@@ -70,7 +70,7 @@ export function DetectedItemReview({
                   value={item.name}
                   onChange={(event) => updateItem(item.id, { name: event.currentTarget.value })}
                   className="form-input min-h-12 rounded-xl bg-surface-container-low px-3 font-semibold"
-                  placeholder="Item name"
+                  placeholder="Nome do artigo"
                 />
                 <span className="chip chip-neutral h-fit shrink-0">
                   {item.confidence > 0 ? `${Math.round(item.confidence * 100)}%` : "Manual"}
@@ -79,7 +79,7 @@ export function DetectedItemReview({
 
               <div className="grid grid-cols-2 gap-3">
                 <label>
-                  <span className="mb-1 block text-xs font-bold uppercase tracking-wide text-outline">Category</span>
+                  <span className="mb-1 block text-xs font-bold uppercase tracking-wide text-outline">Categoria</span>
                   <select
                     value={item.category}
                     onChange={(event) => updateItem(item.id, { category: event.currentTarget.value })}
@@ -93,19 +93,19 @@ export function DetectedItemReview({
                   </select>
                 </label>
                 <label>
-                  <span className="mb-1 block text-xs font-bold uppercase tracking-wide text-outline">Location</span>
+                  <span className="mb-1 block text-xs font-bold uppercase tracking-wide text-outline">Local</span>
                   <input
                     value={item.location}
                     onChange={(event) => updateItem(item.id, { location: event.currentTarget.value })}
                     className="form-input min-h-12 rounded-xl bg-surface-container-low px-3"
-                    placeholder="Fridge"
+                    placeholder="Frigorífico"
                   />
                 </label>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <label>
-                  <span className="mb-1 block text-xs font-bold uppercase tracking-wide text-outline">Quantity</span>
+                  <span className="mb-1 block text-xs font-bold uppercase tracking-wide text-outline">Quantidade</span>
                   <input
                     value={item.quantity ?? ""}
                     inputMode="decimal"
@@ -114,26 +114,26 @@ export function DetectedItemReview({
                       updateItem(item.id, { quantity: value ? Number(value) : null });
                     }}
                     className="form-input min-h-12 rounded-xl bg-surface-container-low px-3"
-                    placeholder="unknown"
+                    placeholder="desconhecido"
                   />
                 </label>
                 <label>
-                  <span className="mb-1 block text-xs font-bold uppercase tracking-wide text-outline">Unit</span>
+                  <span className="mb-1 block text-xs font-bold uppercase tracking-wide text-outline">Unidade</span>
                   <input
                     value={item.unit}
                     onChange={(event) => updateItem(item.id, { unit: event.currentTarget.value })}
                     className="form-input min-h-12 rounded-xl bg-surface-container-low px-3"
-                    placeholder="pcs"
+                    placeholder="un."
                   />
                 </label>
               </div>
 
               {item.matchedExistingInventoryItemId ? (
-                <p className="text-sm font-semibold text-primary">Matches something already in inventory, so saving will update it.</p>
+                <p className="text-sm font-semibold text-primary">Já existe no stock; ao guardar, será atualizado.</p>
               ) : null}
             </div>
 
-            <button className="icon-button h-10 w-10 text-outline" type="button" onClick={() => removeItem(item.id)} aria-label={`Remove ${item.name || "item"}`}>
+            <button className="icon-button h-10 w-10 text-outline" type="button" onClick={() => removeItem(item.id)} aria-label={`Remover ${item.name || "artigo"}`}>
               <Trash2 size={18} aria-hidden="true" />
             </button>
           </div>
@@ -142,7 +142,7 @@ export function DetectedItemReview({
 
       <button type="button" className="secondary-button w-full border-dashed" onClick={addManualItem}>
         <Plus size={20} aria-hidden="true" />
-        Add missing item
+        Adicionar artigo em falta
       </button>
     </div>
   );

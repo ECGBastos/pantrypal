@@ -145,7 +145,7 @@ model NotificationPreference {
   lowStockRemindersEnabled        Boolean   @default(true) @map("low_stock_reminders_enabled")
   weeklyShoppingReminderEnabled   Boolean   @default(false) @map("weekly_shopping_reminder_enabled")
   uncheckedItemsReminderEnabled   Boolean   @default(false) @map("unchecked_items_reminder_enabled")
-  reminderDay                     String    @default("Saturday") @map("reminder_day")
+  reminderDay                     String    @default("Sábado") @map("reminder_day")
   reminderTime                    String    @default("10:00") @map("reminder_time")
   createdAt                       DateTime  @default(now()) @map("created_at")
   updatedAt                       DateTime  @updatedAt @map("updated_at")

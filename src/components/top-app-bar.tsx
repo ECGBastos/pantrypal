@@ -14,7 +14,7 @@ export function TopAppBar({ userName }: { userName: string }) {
             <p className="-mt-1 text-xs font-semibold text-outline">{userName}</p>
           </div>
         </div>
-        <Link href="/inventory/scan" className="icon-button" aria-label="Scan stock">
+        <Link href="/inventory/scan" className="icon-button" aria-label="Fotografar stock">
           <Camera size={26} aria-hidden="true" />
         </Link>
       </div>

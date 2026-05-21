@@ -1,7 +1,7 @@
 {
   "name": "PantryPal",
   "short_name": "PantryPal",
-  "description": "Private household shopping and lightweight home inventory.",
+  "description": "Lista de compras privada e stock simples para casa.",
   "start_url": "/shopping",
   "scope": "/",
   "display": "standalone",
