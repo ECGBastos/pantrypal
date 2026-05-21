@@ -26,6 +26,67 @@ async function resolveCategoryId(householdId: string, formData: FormData) {
   return fallback;
 }
 
+function purchasedQuantity(quantity: string | null) {
+  if (!quantity) {
+    return 1;
+  }
+
+  const match = quantity.replace(",", ".").match(/\d+(?:\.\d+)?/);
+  if (!match) {
+    return 1;
+  }
+
+  const parsed = Number.parseFloat(match[0]);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
+}
+
+async function addBoughtItemToInventory(item: {
+  householdId: string;
+  name: string;
+  normalizedName: string;
+  categoryId: string;
+  quantity: string | null;
+  unit: string | null;
+}) {
+  const quantity = purchasedQuantity(item.quantity);
+  const existingItems = await prisma.inventoryItem.findMany({
+    where: {
+      householdId: item.householdId,
+      normalizedName: item.normalizedName
+    },
+    orderBy: [{ location: "asc" }, { updatedAt: "desc" }]
+  });
+  const existing = existingItems.find((inventoryItem) => inventoryItem.location === "") ?? existingItems[0];
+
+  if (!existing) {
+    await prisma.inventoryItem.create({
+      data: {
+        householdId: item.householdId,
+        name: item.name,
+        normalizedName: item.normalizedName,
+        categoryId: item.categoryId,
+        quantity,
+        unit: item.unit,
+        location: "",
+        isRunningLow: false
+      }
+    });
+    return;
+  }
+
+  const nextQuantity = Number(((existing.quantity ?? 0) + quantity).toFixed(2));
+  await prisma.inventoryItem.update({
+    where: { id: existing.id },
+    data: {
+      name: item.name,
+      categoryId: item.categoryId,
+      quantity: nextQuantity,
+      unit: item.unit ?? existing.unit,
+      isRunningLow: existing.lowStockThreshold !== null ? nextQuantity <= existing.lowStockThreshold : false
+    }
+  });
+}
+
 export async function addShoppingItem(formData: FormData) {
   const name = formString(formData, "name");
   if (!name) {
@@ -183,6 +244,15 @@ export async function toggleShoppingItem(formData: FormData) {
   });
 
   if (nextBought) {
+    await addBoughtItemToInventory({
+      householdId: household.id,
+      name: item.name,
+      normalizedName: item.normalizedName,
+      categoryId: item.categoryId,
+      quantity: item.quantity,
+      unit: item.unit
+    });
+
     await touchKnownItem({
       householdId: household.id,
       name: item.name,
@@ -202,6 +272,7 @@ export async function toggleShoppingItem(formData: FormData) {
   });
 
   revalidatePath("/shopping");
+  revalidatePath("/inventory");
   revalidatePath("/ideas");
 }
 
