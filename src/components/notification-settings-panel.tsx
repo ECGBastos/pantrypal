@@ -23,6 +23,7 @@ export function NotificationSettingsPanel({
 }) {
   const [permission, setPermission] = useState<NotificationPermission | "unsupported">("default");
   const [enabled, setEnabled] = useState(preference.enabled);
+  const [weeklyEnabled, setWeeklyEnabled] = useState(preference.weeklyShoppingReminderEnabled);
 
   useEffect(() => {
     if (!("Notification" in window)) {
@@ -59,9 +60,6 @@ export function NotificationSettingsPanel({
         </div>
         <div>
           <h2 className="text-xl font-bold text-on-surface">Notifications</h2>
-          <p className="mt-1 text-sm leading-6 text-outline">
-            Optional reminders for low stock and unfinished shopping. On iPhone, web push requires the installed Home Screen app on iOS/iPadOS 16.4+.
-          </p>
         </div>
       </div>
 
@@ -72,34 +70,40 @@ export function NotificationSettingsPanel({
       <form action={action} className="space-y-4">
         <Toggle label="Use PantryPal reminders" name="enabled" defaultChecked={preference.enabled} onChange={setEnabled} />
         <Toggle label="Low-stock reminders" name="lowStockRemindersEnabled" defaultChecked={preference.lowStockRemindersEnabled} />
-        <Toggle label="Weekly shopping reminder" name="weeklyShoppingReminderEnabled" defaultChecked={preference.weeklyShoppingReminderEnabled} />
+        <Toggle label="Weekly shopping reminder" name="weeklyShoppingReminderEnabled" defaultChecked={preference.weeklyShoppingReminderEnabled} onChange={setWeeklyEnabled} />
         <Toggle label="Unchecked list reminder" name="uncheckedItemsReminderEnabled" defaultChecked={preference.uncheckedItemsReminderEnabled} />
 
-        <div className="grid grid-cols-2 gap-3">
-          <label>
-            <span className="mb-1 block text-xs font-bold uppercase tracking-wide text-outline">Day</span>
-            <select name="reminderDay" defaultValue={preference.reminderDay} className="form-select">
-              {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map((day) => (
-                <option key={day} value={day}>
-                  {day}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label>
-            <span className="mb-1 block text-xs font-bold uppercase tracking-wide text-outline">Time</span>
-            <input name="reminderTime" type="time" defaultValue={preference.reminderTime} className="form-input min-h-12 rounded-xl bg-surface-container-low px-3" />
-          </label>
-        </div>
+        {weeklyEnabled ? (
+          <div className="space-y-2">
+            <h3 className="text-sm font-bold text-on-surface">Weekly reminder schedule</h3>
+            <div className="grid grid-cols-2 gap-3">
+              <label>
+                <span className="mb-1 block text-xs font-bold uppercase tracking-wide text-outline">Day</span>
+                <select name="reminderDay" defaultValue={preference.reminderDay} className="form-select">
+                  {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map((day) => (
+                    <option key={day} value={day}>
+                      {day}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label>
+                <span className="mb-1 block text-xs font-bold uppercase tracking-wide text-outline">Time</span>
+                <input name="reminderTime" type="time" defaultValue={preference.reminderTime} className="form-input min-h-12 rounded-xl bg-surface-container-low px-3" />
+              </label>
+            </div>
+          </div>
+        ) : (
+          <>
+            <input type="hidden" name="reminderDay" value={preference.reminderDay} />
+            <input type="hidden" name="reminderTime" value={preference.reminderTime} />
+          </>
+        )}
 
         <button className="primary-button w-full" type="submit">
           Save notification settings
         </button>
       </form>
-
-      <p className="text-xs leading-5 text-outline">
-        Full push delivery is scaffolded but intentionally not required for the MVP. The app stores preferences now and can add VAPID/web-push delivery later.
-      </p>
     </section>
   );
 }
