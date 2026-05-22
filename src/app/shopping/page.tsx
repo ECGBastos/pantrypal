@@ -75,7 +75,7 @@ export default async function ShoppingPage() {
 
               <div className="shopping-row-group">
                 {group.items.map((item) => (
-                  <ShoppingListItemRow key={item.id} item={item} />
+                  <ShoppingListItemRow key={item.id} item={item} categories={categories} />
                 ))}
               </div>
             </section>
@@ -102,7 +102,7 @@ export default async function ShoppingPage() {
               </form>
               <div className="shopping-row-group">
                 {boughtItems.map((item) => (
-                  <ShoppingListItemRow key={item.id} item={item} />
+                  <ShoppingListItemRow key={item.id} item={item} categories={categories} />
                 ))}
               </div>
             </div>

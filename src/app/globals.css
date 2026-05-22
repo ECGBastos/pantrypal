@@ -284,17 +284,24 @@ button:disabled {
   border-top: 1px solid rgba(195, 200, 191, 0.25);
 }
 
+.shopping-item-shell {
+  border-bottom: 1px solid rgba(195, 200, 191, 0.35);
+}
+
+.shopping-item-shell.is-bought {
+  opacity: 0.62;
+}
+
 .shopping-item-row {
   display: flex;
   min-height: 74px;
   align-items: center;
   gap: 14px;
-  border-bottom: 1px solid rgba(195, 200, 191, 0.35);
   padding: 14px 0;
 }
 
-.shopping-item-row.is-bought {
-  opacity: 0.62;
+.shopping-item-row.is-editing {
+  padding-bottom: 10px;
 }
 
 .shopping-item-line {
@@ -336,7 +343,7 @@ button:disabled {
   white-space: nowrap;
 }
 
-.shopping-delete {
+.shopping-edit-toggle {
   display: inline-flex;
   height: 40px;
   width: 40px;
@@ -349,18 +356,85 @@ button:disabled {
   transition: background 160ms ease, opacity 160ms ease, transform 160ms ease;
 }
 
-.shopping-delete:active {
+.shopping-edit-toggle:active {
   transform: scale(0.95);
 }
 
 @media (hover: hover) {
-  .shopping-delete {
+  .shopping-edit-toggle {
     opacity: 0;
   }
 
-  .shopping-item-row:hover .shopping-delete {
+  .shopping-item-shell:hover .shopping-edit-toggle,
+  .shopping-edit-toggle:focus-visible {
     opacity: 0.56;
   }
+}
+
+.shopping-edit-panel {
+  padding: 0 0 16px 48px;
+}
+
+.shopping-edit-form {
+  display: grid;
+  gap: 12px;
+  border-radius: 14px;
+  background: rgba(228, 226, 226, 0.4);
+  padding: 12px;
+}
+
+.shopping-edit-label {
+  margin-bottom: 4px;
+  display: block;
+  color: var(--outline);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 16px;
+  text-transform: uppercase;
+}
+
+.shopping-edit-input,
+.shopping-edit-select {
+  min-height: 44px;
+  border-radius: 12px;
+  background: var(--surface-container-lowest);
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.shopping-edit-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-top: 10px;
+}
+
+.shopping-edit-delete,
+.shopping-edit-cancel,
+.shopping-edit-save {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: 9999px;
+  padding: 0 14px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.shopping-edit-delete {
+  color: var(--error);
+}
+
+.shopping-edit-cancel {
+  color: var(--outline);
+}
+
+.shopping-edit-save {
+  background: var(--primary);
+  color: var(--on-primary);
 }
 
 .muted {

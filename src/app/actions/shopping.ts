@@ -219,6 +219,106 @@ export async function addKnownItemToShopping(formData: FormData) {
   revalidatePath("/ideas");
 }
 
+export async function updateShoppingItem(formData: FormData) {
+  const id = formString(formData, "id");
+  const name = formString(formData, "name");
+  if (!id || !name) {
+    return;
+  }
+
+  const { household, currentUser } = await getCurrentContext();
+  const item = await prisma.shoppingItem.findFirst({
+    where: { id, householdId: household.id }
+  });
+
+  if (!item) {
+    return;
+  }
+
+  const categoryId = await resolveCategoryId(household.id, formData);
+  const category = await prisma.category.findFirst({
+    where: { id: categoryId, householdId: household.id }
+  });
+
+  if (!category) {
+    return;
+  }
+
+  const quantity = formString(formData, "quantity") || null;
+  const unit = formString(formData, "unit") || null;
+  const note = formString(formData, "note") || null;
+  const normalizedName = normalizeName(name);
+
+  const duplicate = item.isBought
+    ? null
+    : await prisma.shoppingItem.findFirst({
+        where: {
+          householdId: household.id,
+          normalizedName,
+          isBought: false,
+          NOT: { id }
+        }
+      });
+
+  if (duplicate) {
+    await prisma.$transaction([
+      prisma.shoppingItem.update({
+        where: { id: duplicate.id },
+        data: {
+          name,
+          normalizedName,
+          categoryId,
+          quantity,
+          unit,
+          note
+        }
+      }),
+      prisma.shoppingItem.delete({ where: { id } })
+    ]);
+
+    await logActivity({
+      householdId: household.id,
+      userId: currentUser.id,
+      action: "merged_edited_shopping_item",
+      entityType: "shopping_item",
+      entityId: duplicate.id,
+      metadata: { name }
+    });
+  } else {
+    await prisma.shoppingItem.update({
+      where: { id },
+      data: {
+        name,
+        normalizedName,
+        categoryId,
+        quantity,
+        unit,
+        note
+      }
+    });
+
+    await logActivity({
+      householdId: household.id,
+      userId: currentUser.id,
+      action: "updated_shopping_item",
+      entityType: "shopping_item",
+      entityId: item.id,
+      metadata: { name }
+    });
+  }
+
+  await touchKnownItem({
+    householdId: household.id,
+    name,
+    categoryId,
+    unit,
+    source: "shopping"
+  });
+
+  revalidatePath("/shopping");
+  revalidatePath("/ideas");
+}
+
 export async function toggleShoppingItem(formData: FormData) {
   const id = formString(formData, "id");
   if (!id) {
