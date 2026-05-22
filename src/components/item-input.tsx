@@ -22,7 +22,7 @@ export function ItemInput({
   const listId = inventoryMode ? "inventory-known-items" : "shopping-known-items";
 
   return (
-    <form action={action} className="space-y-3">
+    <form action={action} className={inventoryMode ? "space-y-3" : "shopping-add-form space-y-2"}>
       <div className="input-shell flex items-center gap-3 px-4 py-2">
         <Search className="shrink-0 text-outline" size={24} aria-hidden="true" />
         <label htmlFor={inputId} className="sr-only">
@@ -48,8 +48,8 @@ export function ItemInput({
         ))}
       </datalist>
 
-      <details className="paper-card group p-3">
-        <summary className="list-none cursor-pointer text-sm font-bold text-primary">
+      <details className={inventoryMode ? "paper-card group p-3" : "shopping-add-details group"}>
+        <summary className={inventoryMode ? "list-none cursor-pointer text-sm font-bold text-primary" : "list-none cursor-pointer text-xs font-semibold text-outline"}>
           Detalhes opcionais
         </summary>
         <div className="mt-3 grid gap-3">

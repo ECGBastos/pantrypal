@@ -187,6 +187,37 @@ button:disabled {
   box-shadow: var(--shadow-paper);
 }
 
+.shopping-add-form .input-shell {
+  min-height: 64px;
+  border: 1px solid rgba(195, 200, 191, 0.5);
+  border-radius: 9999px;
+  background: rgba(228, 226, 226, 0.28);
+  box-shadow: none;
+}
+
+.shopping-add-form .input-shell button[type="submit"] {
+  height: 44px;
+  width: 44px;
+}
+
+.shopping-add-details {
+  padding: 0 4px;
+}
+
+.shopping-add-details summary {
+  display: inline-flex;
+  min-height: 36px;
+  align-items: center;
+}
+
+.shopping-add-details[open] {
+  border: 1px solid rgba(195, 200, 191, 0.32);
+  border-radius: 14px;
+  background: var(--surface-container-lowest);
+  box-shadow: var(--shadow-paper);
+  padding: 12px;
+}
+
 .form-input {
   width: 100%;
   border: 0;
@@ -223,6 +254,91 @@ button:disabled {
   font-size: 22px;
   font-weight: 700;
   line-height: 1.25;
+}
+
+.shopping-category-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 4px 4px;
+  color: rgba(71, 97, 74, 0.76);
+}
+
+.shopping-category-heading h2 {
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.shopping-category-heading span:last-child {
+  color: var(--outline);
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.shopping-row-group {
+  border-top: 1px solid rgba(195, 200, 191, 0.25);
+}
+
+.shopping-item-row {
+  display: flex;
+  min-height: 74px;
+  align-items: center;
+  gap: 14px;
+  border-bottom: 1px solid rgba(195, 200, 191, 0.35);
+  padding: 14px 0;
+}
+
+.shopping-item-row.is-bought {
+  opacity: 0.62;
+}
+
+.shopping-check {
+  display: inline-flex;
+  height: 34px;
+  width: 34px;
+  align-items: center;
+  justify-content: center;
+  border-width: 1.5px;
+  border-style: solid;
+  border-radius: 9999px;
+}
+
+.shopping-quantity {
+  flex-shrink: 0;
+  color: var(--outline);
+  font-size: 15px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.shopping-delete {
+  display: inline-flex;
+  height: 40px;
+  width: 40px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  color: var(--outline);
+  opacity: 0.5;
+  transition: background 160ms ease, opacity 160ms ease, transform 160ms ease;
+}
+
+.shopping-delete:active {
+  transform: scale(0.95);
+}
+
+@media (hover: hover) {
+  .shopping-delete {
+    opacity: 0;
+  }
+
+  .shopping-item-row:hover .shopping-delete {
+    opacity: 0.56;
+  }
 }
 
 .muted {
