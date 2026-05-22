@@ -48,7 +48,7 @@ export function NotificationSettingsPanel({
       const registration = await navigator.serviceWorker.ready.catch(() => null);
       registration?.showNotification("As notificações do PantryPal estão prontas", {
         body: "Podes desligar os lembretes a qualquer momento.",
-        icon: "/icons/pantrypal-icon.svg"
+        icon: "/icons/pantrypal-192.png"
       });
     }
   }

@@ -1,4 +1,4 @@
-const CACHE_NAME = "pantrypal-shell-v1";
+const CACHE_NAME = "pantrypal-shell-v2";
 const APP_SHELL = [
   "/",
   "/shopping",
@@ -6,7 +6,10 @@ const APP_SHELL = [
   "/ideas",
   "/settings",
   "/manifest.webmanifest",
-  "/icons/pantrypal-icon.svg",
+  "/favicon.ico",
+  "/favicon-32.png",
+  "/apple-touch-icon.png",
+  "/icons/pantrypal-180.png",
   "/icons/pantrypal-192.png",
   "/icons/pantrypal-512.png"
 ];

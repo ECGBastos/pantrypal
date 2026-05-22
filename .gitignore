@@ -43,3 +43,6 @@ public/uploads/
 *.webp
 !public/icons/*.svg
 !public/icons/*.png
+!public/apple-touch-icon.png
+!public/favicon-16.png
+!public/favicon-32.png
