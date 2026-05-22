@@ -22,8 +22,8 @@ export function ShoppingListItemRow({ item }: { item: ShoppingRowItem }) {
       </form>
 
       <div className="min-w-0 flex-1">
-        <div className="flex min-w-0 items-baseline justify-between gap-3">
-          <h3 className={`min-w-0 flex-1 text-[18px] font-medium leading-6 text-on-surface ${item.isBought ? "line-through" : ""}`}>{item.name}</h3>
+        <div className="shopping-item-line">
+          <h3 className={`shopping-item-name ${item.isBought ? "line-through" : ""}`}>{item.name}</h3>
           {item.quantity || item.unit ? (
             <span className="shopping-quantity">{quantityLabel(item.quantity, item.unit)}</span>
           ) : null}

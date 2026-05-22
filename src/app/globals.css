@@ -295,6 +295,24 @@ button:disabled {
   opacity: 0.62;
 }
 
+.shopping-item-line {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(72px, auto);
+  align-items: baseline;
+  column-gap: 12px;
+}
+
+.shopping-item-name {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--on-surface);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 24px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .shopping-check {
   display: inline-flex;
   height: 34px;
@@ -311,6 +329,7 @@ button:disabled {
   color: var(--outline);
   font-size: 15px;
   font-weight: 600;
+  text-align: right;
   white-space: nowrap;
 }
 
