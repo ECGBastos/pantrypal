@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ChevronDown, Egg, Leaf, PackageCheck, ShoppingBasket } from "lucide-react";
+import { ChevronDown, Leaf, Milk, PackageCheck, ShoppingBasket } from "lucide-react";
 import { addShoppingItem, clearBoughtShoppingItems } from "@/app/actions/shopping";
 import { AppShell } from "@/components/app-shell";
 import { EmptyState } from "@/components/empty-state";
@@ -121,7 +121,7 @@ function CategoryIcon({ categoryName }: { categoryName: string }) {
   }
 
   if (["Laticínios", "Dairy", "Dairy & Eggs"].includes(categoryName)) {
-    return <Egg size={27} aria-hidden="true" />;
+    return <Milk size={27} aria-hidden="true" />;
   }
 
   return <PackageCheck size={27} aria-hidden="true" />;
